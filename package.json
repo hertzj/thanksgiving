@@ -1,7 +1,7 @@
 {
   "name": "tgives",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Setup",
   "main": "seed.js",
   "scripts": {
     "start": "node server/index.js",
@@ -12,12 +12,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^3.0.0",
     "express": "^4.17.1",
+    "inflection": "^1.12.0",
     "pg": "^7.12.1",
     "sequelize": "^5.21.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hertzj/thanksgiving.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/hertzj/thanksgiving/issues"
+  },
+  "homepage": "https://github.com/hertzj/thanksgiving#readme"
 }

@@ -15,7 +15,7 @@ afterAll(async done => {
   await db.close();
   done();
 });
-describe('/api/dishes routes', () => {
+xdescribe('/api/dishes routes', () => {
   // its up to you to create the test conditions for /api/dishes
   // add as many tests as you feel necessary to fully cover each routes functionality
   describe('GET to /api/dishes', () => {
