@@ -58,19 +58,46 @@ router.post('/', (req, res, next) => {
         })
 })
 
+// router.put('/:id', (req, res, next) => {
+//     // console.log(Object.keys(req.params.id));
+//     // const { id } = req.params
+//     const id = req.params.id;
+//     const { name, isAttending} = req.body;
+//     // Person.findByPk(id)
+//     //     .then(person => console.log('the person is: ', person))
+//     //     .catch(e => {
+//     //       res.statusCode = 400;
+//     //       next(e);
+//     // })
+
+// Person.findByPK(id, (err, person) => {
+//     console.log(person)
+//     if (err) {
+//         res.statusCode = 400;
+//         next(err)
+//     }
+
+//     if (name) person.name = name;
+//     if (typeof isAttending === 'boolean') person.isAttending = isAttending;
+
+//     person.save((error) => {
+//         if (error) {
+//             res.statusCode = 400;
+//             next(err)
+//         }
+//         res.json({message: 'person updated!'})
+//     })
+// })
+
+// })
+
+
+
+
 router.put('/:id', (req, res, next) => {
-    // console.log(Object.keys(req.params.id));
-    // const { id } = req.params
     const id = req.params.id;
     const { name, isAttending} = req.body;
-    // Person.findByPk(id)
-    //     .then(person => console.log('the person is: ', person))
-    //     .catch(e => {
-    //       res.statusCode = 400;
-    //       next(e);
-    // })
 
-    // works except error
     Person.update({
             name,
             isAttending,
@@ -79,30 +106,17 @@ router.put('/:id', (req, res, next) => {
                 id,
             }
         })
-    .then(people => {
+    .then(numberOfAffectedRows => {
+        if (numberOfAffectedRows[0] === 0) {
+            res.statusCode(400);
+        }
         res.statusCode = 200;
-        res.send(people);
+        res.send(numberOfAffectedRows)
     })
     .catch(e => {
         res.statusCode = 400;
         next(e);
     })
-
-    //     Person.findByPk(id)
-    //     .then(person => {
-    //         Person.update({
-    //             name,
-    //             isAttending
-    //         }, {
-    //             where: {
-    //                 id: person.id
-    //             }
-    //         })
-    //     })
-    //     .catch(e => {
-    //     res.statusCode = 400;
-    //     next(e);
-    // })
 
 })
 
