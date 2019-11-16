@@ -47,7 +47,7 @@ router.get("/", (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     Person.create(req.body)
-        .then(() => Person.findAll())
+        .then(() => Person.findAll()) // think we could just send the new person
         .then(people => {
             res.statusCode = 200;
             res.send(people)
@@ -58,67 +58,65 @@ router.post('/', (req, res, next) => {
         })
 })
 
-// router.put('/:id', (req, res, next) => {
-//     // console.log(Object.keys(req.params.id));
-//     // const { id } = req.params
-//     const id = req.params.id;
-//     const { name, isAttending} = req.body;
-//     // Person.findByPk(id)
-//     //     .then(person => console.log('the person is: ', person))
-//     //     .catch(e => {
-//     //       res.statusCode = 400;
-//     //       next(e);
-//     // })
-
-// Person.findByPK(id, (err, person) => {
-//     console.log(person)
-//     if (err) {
-//         res.statusCode = 400;
-//         next(err)
-//     }
-
-//     if (name) person.name = name;
-//     if (typeof isAttending === 'boolean') person.isAttending = isAttending;
-
-//     person.save((error) => {
-//         if (error) {
-//             res.statusCode = 400;
-//             next(err)
-//         }
-//         res.json({message: 'person updated!'})
-//     })
-// })
-
-// })
-
-
-
-
+// put with findByPk
 router.put('/:id', (req, res, next) => {
     const id = req.params.id;
-    const { name, isAttending} = req.body;
-
-    Person.update({
-            name,
-            isAttending,
-        }, {
-            where: {
-                id,
-            }
+    const { name, isAttending } = req.body;
+    Person.findByPk(id)
+        .then(person => {
+            person.update({ name, isAttending })
+            res.statusCode = 200;
+            res.send(person)
         })
-    .then(numberOfAffectedRows => {
-        if (numberOfAffectedRows[0] === 0) {
-            res.statusCode(400);
-        }
-        res.statusCode = 200;
-        res.send(numberOfAffectedRows)
-    })
-    .catch(e => {
-        res.statusCode = 400;
-        next(e);
-    })
-
+        .catch(e => {
+            res.statusCode = 400;
+            next(e)
+        })
 })
+
+// put with findByPk and async try/catch
+// router.put('/:id', async (req, res, next) => {
+//     try {
+//         const id = req.params.id;
+//         const { name, isAttending } = req.body;
+//         let personToChange = await Person.findByPk(id)
+//         personToChange = await personToChange.update({ name, isAttending })
+//         res.statusCode = 200;
+//         res.send(personToChange);
+//     }
+//     catch (e) {
+//         res.statusCode = 400;
+//         next(e)
+//     }
+// })
+
+
+// put with Person.update
+// router.put('/:id', (req, res, next) => {
+//     const id = req.params.id;
+//     const { name, isAttending} = req.body;
+
+//     Person.update({
+//             name,
+//             isAttending,
+//         }, {
+//             where: {
+//                 id,
+//             }
+//         })
+//     .then(numberOfAffectedRows => {
+//         if (numberOfAffectedRows[0] === 0) {
+//             res.statusCode(400);
+//         }
+//         res.statusCode = 200;
+//         res.send(numberOfAffectedRows)
+//     })
+//     .catch(e => {
+//         res.statusCode = 400;
+//         next(e);
+//     })
+
+// })
 
 
 router.delete('/:id', (req, res, next) => {

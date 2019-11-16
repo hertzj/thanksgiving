@@ -70,6 +70,7 @@ describe('/api/dishes routes', () => {
         ])
 
         const dishNum = Math.ceil(Math.random() * 3)
+        // const dishNum = 1;
 
         const singleDishResponse = await request(app)
           .get(`/api/dishes/${dishNum}`);
@@ -80,9 +81,15 @@ describe('/api/dishes routes', () => {
         );
 
         const singleDish = singleDishResponse.body;
-        if (dishNum === 1) expect(singleDish).toEqual([expect.objectContaining(dish1)]);
-        else if (dishNum === 2) expect(singleDish).toEqual([expect.objectContaining(dish2)]);
-        else if (dishNum === 3) expect(singleDish).toEqual([expect.objectContaining(dish3)]);
+        if (dishNum === 1) {
+          expect(singleDish).toEqual(expect.objectContaining(dish1));
+        }
+        else if (dishNum === 2) {
+          expect(singleDish).toEqual(expect.objectContaining(dish2));
+        }
+        else if (dishNum === 3) {
+          expect(singleDish).toEqual(expect.objectContaining(dish3));
+        }
       }
       catch (err) {
         fail (err);
@@ -149,7 +156,7 @@ describe('/api/dishes routes', () => {
           .get('/api/dishes/2')
 
         const editedDish = checkEditResponse.body;
-        expect(editedDish).toEqual([expect.objectContaining(updatedDish)])
+        expect(editedDish).toEqual(expect.objectContaining(updatedDish))
       }
       catch (err) {
         fail(err);

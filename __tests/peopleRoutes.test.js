@@ -15,14 +15,14 @@ afterAll(async done => {
   await db.close();
   done();
 });
-xdescribe('/api/people routes', () => {
+describe('/api/people routes', () => {
   const person1 = { name: 'mark', isAttending: true };
   const person2 = { name: 'russell', isAttending: false };
   const person3 = { name: 'ryan', isAttending: true };
 
   const dish1 = { name: 'turkey', description: 'delicious briney turkey' };
   const dish2 = { name: 'pie', description: 'delicious pumpkiney pie' };
-  xdescribe('GET to /api/people', () => {
+  describe('GET to /api/people', () => {
     // example test using vanilla promise syntax (no async/await)
     it('should retrieve all people if no params are given', () => {
       // we will seed the db before every test so that we can isolate each test as much as possible
@@ -143,7 +143,7 @@ xdescribe('/api/people routes', () => {
       }
     });
   });
-  xdescribe('POST to /api/people', () => {
+  describe('POST to /api/people', () => {
     it('should create a new person and return that persons information if all the required information is given', async () => {
       // HINT: You will be sending data then checking response. No pre-seeding required
       // imagine request is like fetch // await request(app).post...
@@ -186,7 +186,7 @@ xdescribe('/api/people routes', () => {
     });
   });
 
-  xdescribe('PUT to /api/people/:id', () => {
+  describe('PUT to /api/people/:id', () => {
     // look up docs for supertest
     it('should update a persons information', async () => {
 

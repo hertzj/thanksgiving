@@ -18,19 +18,34 @@ router.get("/", (req, res, next) => {
         })
 });
 
-router.get("/:id", (req, res, next) => {
-    const where = {}
-    if (req.params.id) {
-        const id = req.params.id;
-        where.id = id
-    }
+// with where
+// router.get("/:id", (req, res, next) => {
+//     const where = {}
+//     if (req.params.id) {
+//         const id = req.params.id;
+//         where.id = id
+//     }
 
-    Dish.findAll({
-        where,
-    })
-        .then(dishes => {
+//     Dish.findAll({
+//         where,
+//     })
+//         .then(dishes => {
+//             res.statusCode = 200;
+//             res.send(dishes)
+//         })
+//         .catch(e => {
+//             res.statusCode = 400;
+//             next(e)
+//         })
+// });
+
+// with findByPk
+router.get("/:id", (req, res, next) => {
+    const id = req.params.id
+    Dish.findByPk(id)
+        .then(dish => {
             res.statusCode = 200;
-            res.send(dishes)
+            res.send(dish)
         })
         .catch(e => {
             res.statusCode = 400;
@@ -40,7 +55,7 @@ router.get("/:id", (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     Dish.create(req.body)
-        .then(() => Dish.findAll())
+        .then(() => Dish.findAll()) // think we could just send the new dish
         .then(dishes => {
             res.statusCode = 200;
             res.send(dishes)
@@ -51,17 +66,13 @@ router.post('/', (req, res, next) => {
         })
 })
 
+// I do this with promises in the people route
 router.put('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        // console.log('id: ', id)
         const { name, description } = req.body;
-        // expect wasCreated to be false;
         let dishToChange = await Dish.findByPk(id)
-            // .then(foundDish => console.log('the found dish is: ', foundDish))
-        // console.log('before change: ', dishToChange.description);
         dishToChange = await dishToChange.update({ name, description })
-        // console.log('after change: ', dishToChange.description);
         res.statusCode = 200;
         res.send(dishToChange);
     }
@@ -69,9 +80,6 @@ router.put('/:id', async (req, res, next) => {
         res.statusCode= 400;
         next(e)
     }
-
-
-    
 })
 
 router.delete('/:id', (req, res, next) => {
