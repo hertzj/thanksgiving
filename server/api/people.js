@@ -4,18 +4,15 @@ const { Person, Dish } = require("../../db");
 // make sure to use router.get, router.post etc..., instead of app.get, app.post, or etc... in this file.
 // see https://expressjs.com/en/api.html#routers
 
-// router.get("/", (req, res, next) => {});
-
-// /api/people
-// for id /:id
 
 // remmeber that for a post (and a put, maybe) the json must be in this format:
-
 // {
 //     "name": "Jake", "isAttending": "false"
 // }
 
 router.get("/", (req, res, next) => {
+    // console.log(Object.keys(req));
+    // console.log('hi from slash', req.query)
     const where = {};
     const include = [];
     if (req.query.is_attending === 'true') {
@@ -29,8 +26,7 @@ router.get("/", (req, res, next) => {
 
 
     }
-    // console.log(Object.keys(req));
-    // console.log('hi from slash', req.query)
+
     Person.findAll({
         where,
         include,
@@ -123,7 +119,6 @@ router.delete('/:id', (req, res, next) => {
     // console.log(Object.entries(req.params));
     // console.log(req.params.id)
     const id = req.params.id
-    // console.log(id)
     Person.destroy({
         where: {
             id,

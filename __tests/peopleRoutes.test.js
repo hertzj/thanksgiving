@@ -200,15 +200,11 @@ describe('/api/people routes', () => {
         const updatedData = {  isAttending: false };
         const updatedPerson = { name: 'mark', isAttending: false }
 
-        await request(app)
+       await request(app)
           .put(`/api/people/${mark.id}`)
           .send(updatedData)
           .expect('Content-Type', /json/)
           .expect(200);
-        
-        // const putPerson = putResponse.body;
-        // expect(putPerson).toEqual([expect.objectContaining(updatedPerson)]);
-
 
         const checkEditResponse = await request(app)
           .get(`/api/people/`)

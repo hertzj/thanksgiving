@@ -21,8 +21,6 @@ const dish2 = { name: 'pie', description: 'delicious pumpkiney pie' }
 
 const seed = async () => {
   try {
-    // await db.sync({force: true})
-
     const [mark, russell, ryan] = await Promise.all(people.map(person => Person.create(person)))
   
     const [turk, pie] = await Promise.all([

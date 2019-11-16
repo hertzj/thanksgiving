@@ -4,7 +4,6 @@ const { Dish, Person } = require("../../db");
 // make sure to use router.get, router.post etc..., instead of app.get, app.post, or etc... in this file.
 // see https://expressjs.com/en/api.html#router
 
-// router.get("/", (req, res, next) => {});
 // there must be a way to do the id and no params within one codeblock
 router.get("/", (req, res, next) => {
     Dish.findAll()
@@ -18,7 +17,7 @@ router.get("/", (req, res, next) => {
         })
 });
 
-// with where
+// get individual dish with where
 // router.get("/:id", (req, res, next) => {
 //     const where = {}
 //     if (req.params.id) {
@@ -39,7 +38,7 @@ router.get("/", (req, res, next) => {
 //         })
 // });
 
-// with findByPk
+// get individual dish with findByPk
 router.get("/:id", (req, res, next) => {
     const id = req.params.id
     Dish.findByPk(id)
