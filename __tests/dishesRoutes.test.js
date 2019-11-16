@@ -63,17 +63,22 @@ describe('/api/dishes routes', () => {
   describe('GET to /api/dishes/:id', () => {
     it('should show the dish with the given id', async () => {
       try {
-        await Promise.all([
+        const [broccoli, carrotCake, turkey] = await Promise.all([
           Dish.create(dish1),
           Dish.create(dish2),
           Dish.create(dish3)
         ])
 
-        const dishNum = Math.ceil(Math.random() * 3)
-        // const dishNum = 1;
+        const dishes = [broccoli, carrotCake, turkey]
+        const originals = [dish1, dish2, dish3]
+
+        const dishNum = Math.floor(Math.random() * 3)
+        const dish = dishes[dishNum]
+        const originalDish = originals[dishNum]
+
 
         const singleDishResponse = await request(app)
-          .get(`/api/dishes/${dishNum}`);
+          .get(`/api/dishes/${dish.id}`);
         
         expect(singleDishResponse.statusCode).toBe(200);
         expect(singleDishResponse.headers['content-type']).toEqual(
@@ -81,15 +86,23 @@ describe('/api/dishes routes', () => {
         );
 
         const singleDish = singleDishResponse.body;
-        if (dishNum === 1) {
-          expect(singleDish).toEqual(expect.objectContaining(dish1));
-        }
-        else if (dishNum === 2) {
-          expect(singleDish).toEqual(expect.objectContaining(dish2));
-        }
-        else if (dishNum === 3) {
-          expect(singleDish).toEqual(expect.objectContaining(dish3));
-        }
+        expect(singleDish).toEqual(expect.objectContaining(originalDish))
+
+
+        // this is the code I used to figure out that I had to test against the original
+        // I am not sure why except that it has something to do with the
+        // createdAt and updatedAt times being VERY slightly different
+
+        // const singleResposne = await request(app)
+        //   .get(`/api/dishes/${turkey.id}`)
+
+        // expect(singleResposne.statusCode).toBe(200);
+        // expect(singleResposne.headers['content-type']).toEqual(
+        //   expect.stringContaining('json')
+        // );
+        // const single = singleResposne.body;
+        // expect(single).toEqual(expect.objectContaining(dish3))
+
       }
       catch (err) {
         fail (err);
@@ -137,7 +150,7 @@ describe('/api/dishes routes', () => {
   describe('PUT to /api/dishes/:id', () => {
     it("should update a dish's info", async () => {
       try {
-        await Promise.all([
+        const [broccoli, carrotCake, turkey] = await Promise.all([
           Dish.create(dish1),
           Dish.create(dish2),
           Dish.create(dish3)
@@ -147,13 +160,13 @@ describe('/api/dishes routes', () => {
         const updatedDish = { name: 'carrot cake', description: 'hmm, I like this!' };
 
         await request(app)
-          .put('/api/dishes/2')
+          .put(`/api/dishes/${carrotCake.id}`)
           .send(updatedData)
           .expect('Content-Type', /json/)
           .expect(200)
 
         const checkEditResponse = await request(app)
-          .get('/api/dishes/2')
+          .get(`/api/dishes/${carrotCake.id}`)
 
         const editedDish = checkEditResponse.body;
         expect(editedDish).toEqual(expect.objectContaining(updatedDish))

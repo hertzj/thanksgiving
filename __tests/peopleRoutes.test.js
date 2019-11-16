@@ -192,7 +192,7 @@ describe('/api/people routes', () => {
 
       try {
         // seed the db
-        await Promise.all([
+        const [mark, russell, ryan] = await Promise.all([
           Person.create(person1),
           Person.create(person2),
           Person.create(person3),
@@ -201,7 +201,7 @@ describe('/api/people routes', () => {
         const updatedPerson = { name: 'mark', isAttending: false }
 
         await request(app)
-          .put(`/api/people/1`)
+          .put(`/api/people/${mark.id}`)
           .send(updatedData)
           .expect('Content-Type', /json/)
           .expect(200);
