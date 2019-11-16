@@ -125,7 +125,7 @@ router.delete('/:id', (req, res, next) => {
     // console.log(Object.entries(req.params));
     // console.log(req.params.id)
     const id = req.params.id
-    console.log(id)
+    // console.log(id)
     Person.destroy({
         where: {
             id,

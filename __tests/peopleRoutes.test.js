@@ -15,14 +15,14 @@ afterAll(async done => {
   await db.close();
   done();
 });
-describe('/api/people routes', () => {
+xdescribe('/api/people routes', () => {
   const person1 = { name: 'mark', isAttending: true };
   const person2 = { name: 'russell', isAttending: false };
   const person3 = { name: 'ryan', isAttending: true };
 
   const dish1 = { name: 'turkey', description: 'delicious briney turkey' };
   const dish2 = { name: 'pie', description: 'delicious pumpkiney pie' };
-  describe('GET to /api/people', () => {
+  xdescribe('GET to /api/people', () => {
     // example test using vanilla promise syntax (no async/await)
     it('should retrieve all people if no params are given', () => {
       // we will seed the db before every test so that we can isolate each test as much as possible
@@ -143,7 +143,7 @@ describe('/api/people routes', () => {
       }
     });
   });
-  describe('POST to /api/people', () => {
+  xdescribe('POST to /api/people', () => {
     it('should create a new person and return that persons information if all the required information is given', async () => {
       // HINT: You will be sending data then checking response. No pre-seeding required
       // imagine request is like fetch // await request(app).post...
@@ -186,7 +186,7 @@ describe('/api/people routes', () => {
     });
   });
 
-  describe('PUT to /api/people/:id', () => {
+  xdescribe('PUT to /api/people/:id', () => {
     // look up docs for supertest
     it('should update a persons information', async () => {
 
@@ -238,7 +238,7 @@ describe('/api/people routes', () => {
     });
   });
 
-  xdescribe('DELETE to /api/people/:id', () => {
+  describe('DELETE to /api/people/:id', () => {
     it('should remove a person from the database', async () => {
       try {
         // seed the db
@@ -249,7 +249,7 @@ describe('/api/people routes', () => {
         ]);
         // now delete someone!
         // who will it be???
-        const deleteId = Math.floor(Math.random() * 3);
+        const deleteId = Math.ceil(Math.random() * 3);
         await request(app)
           .delete(`/api/people/${deleteId}`)
           
